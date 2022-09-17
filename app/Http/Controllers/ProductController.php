@@ -91,18 +91,16 @@ class ProductController extends Controller
     function deleteProduct($id)
     {
         $product = Product::find($id);
-        $destination = 'Upload/ProductPhotos/' . $product->image;
-        if (File::exists($destination)) {
-            File::delete($destination);
-        }
-
+        // $destination = (\public_path("Upload/ProductPhotos/' . $product"));
+        // if (File::exists($destination)) {
+        //     File::delete($destination);
+        // }
         $images = ProductImage::where('productId', $product->id)->get();
-
         foreach ($images as $file) {
-            $destination2 = 'Upload/FeaturedPhotos/' . $file->image;
-            if (File::exists($destination2)) {
-                File::delete($destination2);
-            }
+            // $destination2 = (\public_path("Upload/FeaturedPhotos/' . $file->image"));
+            // if (File::exists($destination2)) {
+            //     File::delete($destination2);
+            // }
             $file->delete();
         }
         $product->delete();
