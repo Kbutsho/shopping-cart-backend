@@ -112,4 +112,32 @@ class ProductController extends Controller
             'message' => 'Delete Successfully!',
         ]);
     }
+    public function updateProduct(Request $request)
+    {
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'name' => 'required',
+                'quantity' => 'required|regex:/[0-9]/',
+                'price' => 'required|regex:/[0-9]/',
+                'details' => 'required',
+            ]
+        );
+        if ($validator->fails()) {
+            return response()->json([
+                'validation_errors' => $validator->errors(),
+            ]);
+        } else {
+            $product = Product::find($request->id);
+            // $product->id = $request->id;
+            $product->name = $request->name;
+            $product->price = $request->price;
+            $product->quantity = $request->quantity;
+            $product->details = $request->details;
+            $product->update();
+            return response()->json([
+                'success' => 'Update Successfully!',
+            ]);
+        }
+    }
 }
